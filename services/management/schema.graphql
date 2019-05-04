@@ -1,0 +1,61 @@
+# import ListOrderByInput, TodoOrderByInput from "./generated/graphql-schema/prisma.graphql"
+# import User, List, Todo from "./generated/graphql-schema/prisma.graphql"
+
+directive @requireAuth on QUERY | FIELD | FIELD_DEFINITION | MUTATION
+
+scalar JSON
+
+type ListLists {
+	lists: [List]
+	count: Int
+}
+
+type ListTodos {
+	lists: [List]
+	count: Int
+}
+
+type Query {
+	# User:
+	getOwnUser: User @requireAuth
+	getUsers(emailOrUsername: String!): [User] @requireAuth
+
+	# List:
+	getLists(skip: Int, first: Int, orderBy: ListOrderByInput): ListLists
+		@requireAuth
+	getList(id: ID!): List @requireAuth
+
+	# Version:
+	getTodo(id: ID!): Todo @requireAuth
+	getTodos(
+		listId: ID!
+		skip: Int
+		first: Int
+		orderBy: TodoOrderByInput
+	): ListTodos
+}
+
+type Mutation {
+	# User:
+	createUser(
+		name: String!
+		username: String
+		email: String!
+		password: String!
+	): User!
+	loginUser(
+		emailOrUsername: String!
+		password: String!
+		rememberMe: Boolean
+	): User!
+
+	# List:
+	createList(name: String!, description: String): List! @requireAuth
+	updateList(id: ID!, name: String!, description: String): List! @requireAuth
+	deleteList(id: ID!): List! @requireAuth
+
+	# Todo:
+	createTodo(text: String!, listId: ID): Todo! @requireAuth
+	updateTodo(id: ID!, text: String!): Todo! @requireAuth
+	deleteTodo(id: ID!): Todo! @requireAuth
+}

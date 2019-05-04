@@ -1,0 +1,13 @@
+endpoint: http://localhost:5001
+datamodel:
+  - entities/user.graphql
+  - entities/list.graphql
+  - entities/todo.graphql
+generate:
+  - generator: javascript-client
+    output: ./generated/prisma-client/
+  - generator: graphql-schema
+    output: ./generated/graphql-schema/prisma.graphql
+hooks:
+  post-deploy:
+    - prisma generate

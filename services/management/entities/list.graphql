@@ -1,0 +1,9 @@
+type List {
+	id: ID! @id @unique
+	name: String!
+	description: String! @default(value: "")
+	todos: [Todo!]
+	owner: User!
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}

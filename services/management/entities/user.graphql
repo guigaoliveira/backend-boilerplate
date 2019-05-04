@@ -1,0 +1,16 @@
+enum UserRole {
+	USER
+	COMPANY
+}
+
+type User {
+	id: ID! @id @unique
+	name: String!
+	username: String @unique
+	email: String! @unique
+	password: String!
+	role: UserRole @default(value: COMPANY)
+	isDeleted: Boolean! @default(value: false)
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}

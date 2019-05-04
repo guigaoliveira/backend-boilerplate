@@ -1,0 +1,8 @@
+type Todo {
+	id: ID! @id @unique
+	text: String!
+	list: List!
+	marked: Boolean! @default(value: false)
+	createdAt: DateTime! @createdAt
+	updatedAt: DateTime! @updatedAt
+}
